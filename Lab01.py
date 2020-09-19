@@ -57,4 +57,4 @@ def next_modulo(y):
 
 testmod()
 # for calling doctest for the file 'v' for verbose mode
-# python3 -m doctest Lab01.py
+# python3 -m doctest -v Lab01.py
