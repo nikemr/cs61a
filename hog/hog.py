@@ -54,30 +54,56 @@ def free_bacon(score):
     #print(div,pi)
     pi=pi % 10
     return pi+3    
+# def free_bacon(score):
+#     """Return the points scored from rolling 0 dice (Free Bacon).
+#     score:  The opponent's current score.
+#     """
+#     assert score < 100, 'The game should be over.'
+#     # BEGIN PROBLEM 2
+#     if score<10:
+#         return 1
+#     elif score>=10:
+#         tens_digit=floordiv(score,10)
+#         ones_digit=score%10
+#     smaller_digit=min(tens_digit,ones_digit)
+#     return smaller_digit+1
 
+# def take_turn(num_rolls, opponent_score, dice=six_sided):
+#     """Simulate a turn rolling NUM_ROLLS dice, which may be 0 (Free Bacon).
+#     Return the points scored for the turn by the current player.
 
+#     num_rolls:       The number of dice rolls that will be made.
+#     opponent_score:  The total score of the opponent.
+#     dice:            A function that simulates a single dice roll outcome.
+#     """
+#     # Leave these assert statements here; they help check for errors.
+#     assert type(num_rolls) == int, 'num_rolls must be an integer.'
+#     assert num_rolls >= 0, 'Cannot roll a negative number of dice in take_turn.'
+#     assert num_rolls <= 10, 'Cannot roll more than 10 dice.'
+#     assert opponent_score < 100, 'The game should be over.'
+#     # BEGIN PROBLEM 3
+#     if not num_rolls:
+#         score= free_bacon(opponent_score)
+#     else:
+#         score= roll_dice(num_rolls)
+#     return score    
+#     "*** YOUR CODE HERE ***"
+#     # END PROBLEM 3
 def take_turn(num_rolls, opponent_score, dice=six_sided):
-    """Simulate a turn rolling NUM_ROLLS dice, which may be 0 (Free Bacon).
-    Return the points scored for the turn by the current player.
-
+    """Simulate a turn rolling NUM_ROLLS dice, which may be 0 (Free bacon).
     num_rolls:       The number of dice rolls that will be made.
     opponent_score:  The total score of the opponent.
-    dice:            A function that simulates a single dice roll outcome.
+    dice:            A function of no args that returns an integer outcome.
     """
-    # Leave these assert statements here; they help check for errors.
     assert type(num_rolls) == int, 'num_rolls must be an integer.'
-    assert num_rolls >= 0, 'Cannot roll a negative number of dice in take_turn.'
+    assert num_rolls >= 0, 'Cannot roll a negative number of dice.'
     assert num_rolls <= 10, 'Cannot roll more than 10 dice.'
     assert opponent_score < 100, 'The game should be over.'
-    # BEGIN PROBLEM 3
-    if not num_rolls:
-        score= free_bacon(opponent_score)
-    else:
-        score= roll_dice(num_rolls)
-    return score    
-    "*** YOUR CODE HERE ***"
-    # END PROBLEM 3
 
+    if num_rolls == 0:
+        return 1 + max(opponent_score % 10, opponent_score // 10)
+    else:
+        return roll_dice(num_rolls, dice)
 
 def extra_turn(player_score, opponent_score):
     """Return whether the player gets an extra turn."""
@@ -177,20 +203,27 @@ def play(strategy0, strategy1, score0=0, score1=0, dice=six_sided,
     """
     who = 0  # Who is about to take a turn, 0 (first) or 1 (second)
     # BEGIN PROBLEM 5
-    some_number=0
+    
 
-    while score0<goal and score1<goal:
+    while score0<=goal and score1<=goal:
         if not who:
-            num_dice= strategy0(score0,score1)
-            score_gain0= take_turn(num_dice,score1,six_sided)
+            num_dice0= strategy0(score0,score1)
+            score_gain0= take_turn(num_dice0,score1,dice)
             score0 += score_gain0
-            who = 1 
+            print(score0)
+            if not extra_turn(score0,score1):  
+                #print("extra turn for player 0") 
+                who = 1 
 
         else:
-            num_dice= strategy1(score1,score0)
-            score_gain1= take_turn(num_dice,score0,six_sided)
+            num_dice1= strategy1(score1,score0)
+            score_gain1= take_turn(num_dice1,score0,dice)
             score1 += score_gain1
-            who = 0
+            print(score1)
+            if not extra_turn(score0,score1):   
+                #print("extra tur for player 1")
+                who = 0 
+            
         
              
     
