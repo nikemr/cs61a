@@ -187,7 +187,7 @@ def silence(score0, score1):
     """Announce nothing (see Phase 2)."""
     return silence
 
-# def play(strategy0, strategy1, score0=0, score1=0, dice=six_sided, 
+
 def play(strategy0, strategy1, score0=0, score1=0, dice=six_sided,
          goal=GOAL_SCORE, say=silence):
     """Simulate a game and return the final scores of both players, with Player
@@ -208,25 +208,28 @@ def play(strategy0, strategy1, score0=0, score1=0, dice=six_sided,
     who = 0  # Who is about to take a turn, 0 (first) or 1 (second)
     # BEGIN PROBLEM 5
     
-
+    
     while score0<=goal and score1<=goal:
-        if not who:
-            num_dice0= strategy0(score0,score1)
-            score_gain0= take_turn(num_dice0,score1,dice)
-            score0 += score_gain0
-            print(score0)
-            if not extra_turn(score0,score1):  
-                #print("extra turn for player 0") 
-                who = 1 
+        # not readible but nice
+        strategy= (who and strategy1) or strategy0
+        # if who is "0" then "x = score0", "y= score1" 
+        x= (who and score1) or score0   
+        y= (who and score0) or score1
+        num_dice= strategy(x,y)
+        score_gain= take_turn(num_dice,y,dice)
 
+        # means player 1
+        if not who:
+            score0 += score_gain
+        # means the other    
         else:
-            num_dice1= strategy1(score1,score0)
-            score_gain1= take_turn(num_dice1,score0,dice)
-            score1 += score_gain1
-            print(score1)
-            if not extra_turn(score0,score1):   
-                #print("extra tur for player 1")
-                who = 0 
+            score1 += score_gain
+            
+        if not extra_turn(x,y):  
+            #print("extra turn for player 0") 
+            who = other(who) 
+
+        
             
         
              
@@ -240,7 +243,57 @@ def play(strategy0, strategy1, score0=0, score1=0, dice=six_sided,
     # END PROBLEM 6
     return score0, score1
 
+# def play(strategy0, strategy1, score0=0, score1=0, dice=six_sided,
+#          goal=GOAL_SCORE, say=silence):
+#     """Simulate a game and return the final scores of both players, with Player
+#     0's score first, and Player 1's score second.
 
+#     A strategy is a function that takes two total scores as arguments (the
+#     current player's score, and the opponent's score), and returns a number of
+#     dice that the current player will roll this turn.
+
+#     strategy0:  The strategy function for Player 0, who plays first.
+#     strategy1:  The strategy function for Player 1, who plays second.
+#     score0:     Starting score for Player 0
+#     score1:     Starting score for Player 1
+#     dice:       A function of zero arguments that simulates a dice roll.
+#     goal:       The game ends and someone wins when this score is reached.
+#     say:        The commentary function to call at the end of the first turn.
+#     """
+#     who = 0  # Who is about to take a turn, 0 (first) or 1 (second)
+#     # BEGIN PROBLEM 5
+    
+
+#     while score0<=goal and score1<=goal:
+#         if not who:
+#             num_dice0= strategy0(score0,score1)
+#             score_gain0= take_turn(num_dice0,score1,dice)
+#             score0 += score_gain0
+#             print(score0)
+#             if not extra_turn(score0,score1):  
+#                 #print("extra turn for player 0") 
+#                 who = 1 
+
+#         else:
+#             num_dice1= strategy1(score1,score0)
+#             score_gain1= take_turn(num_dice1,score0,dice)
+#             score1 += score_gain1
+#             print(score1)
+#             if not extra_turn(score0,score1):   
+#                 #print("extra tur for player 1")
+#                 who = 0 
+            
+        
+             
+    
+    
+        
+#     # END PROBLEM 5
+#     # (note that the indentation for the problem 6 prompt (***YOUR CODE HERE***) might be misleading)
+#     # BEGIN PROBLEM 6
+#     "*** YOUR CODE HERE ***"
+#     # END PROBLEM 6
+#     return score0, score1
 #######################
 # Phase 2: Commentary #
 #######################
