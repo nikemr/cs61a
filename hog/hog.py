@@ -138,6 +138,7 @@ def swine_align(player_score, opponent_score):
         if (mi % step == 0) and (ma % step == 0):
             gdc*=step
             if gdc>=10:
+                print("swine")
                 return True
         step+=1
     return False    
@@ -164,6 +165,12 @@ def pig_pass(player_score, opponent_score):
     >>> pig_pass(13, 12)
     False
     """
+    # # BEGIN PROBLEM 4b
+    # diff = opponent_score-player_score
+    # if diff<=0 or diff>=3 :
+    #     return False
+    # return True
+    # # END PROBLEM 4b
     # BEGIN PROBLEM 4b
     diff = opponent_score-player_score
     if diff<=0 or diff>=3 :
@@ -208,41 +215,41 @@ def play(strategy0, strategy1, score0=0, score1=0, dice=six_sided,
     who = 0  # Who is about to take a turn, 0 (first) or 1 (second)
     # BEGIN PROBLEM 5
     
-    
     while score0<=goal and score1<=goal:
         # not readible but nice
         strategy= (who and strategy1) or strategy0
-        # if who is "0" then "x = score0", "y= score1" 
+        # if who is "0" then "x = score0", "y= score1" and if who is "1" then vice versa ....
         x= (who and score1) or score0   
         y= (who and score0) or score1
         num_dice= strategy(x,y)
         score_gain= take_turn(num_dice,y,dice)
-
+        
         # means player 1
         if not who:
-            score0 += score_gain
+            score0 += score_gain            
         # means the other    
-        else:
+        elif who:
             score1 += score_gain
-            
-        if not extra_turn(x,y):  
-            #print("extra turn for player 0") 
-            who = other(who) 
+        # not nice but works with or without this, it must be necessary though I think lucky coincidence
+        x= (who and score1) or score0   
+        y= (who and score0) or score1
 
-        
-            
-        
+        if not extra_turn(x,y): 
              
-    
-    
-        
+            who = other(who)
+        elif extra_turn(x,y):
+             print(f'extra turn for player {who}') 
+        say = say(score0,score1)    
+            
+
     # END PROBLEM 5
     # (note that the indentation for the problem 6 prompt (***YOUR CODE HERE***) might be misleading)
     # BEGIN PROBLEM 6
-    "*** YOUR CODE HERE ***"
+        
     # END PROBLEM 6
     return score0, score1
 
+#MY FIRST UGLY SOLUTION
 # def play(strategy0, strategy1, score0=0, score1=0, dice=six_sided,
 #          goal=GOAL_SCORE, say=silence):
 #     """Simulate a game and return the final scores of both players, with Player
@@ -272,6 +279,7 @@ def play(strategy0, strategy1, score0=0, score1=0, dice=six_sided,
 #             print(score0)
 #             if not extra_turn(score0,score1):  
 #                 #print("extra turn for player 0") 
+                
 #                 who = 1 
 
 #         else:
@@ -281,9 +289,10 @@ def play(strategy0, strategy1, score0=0, score1=0, dice=six_sided,
 #             print(score1)
 #             if not extra_turn(score0,score1):   
 #                 #print("extra tur for player 1")
+                
 #                 who = 0 
             
-        
+#         say = say(score0,score1) 
              
     
     
@@ -372,8 +381,24 @@ def announce_highest(who, last_score=0, running_high=0):
     30 point(s)! The most yet for Player 1
     """
     assert who == 0 or who == 1, 'The who argument should indicate a player.'
+    
+
     # BEGIN PROBLEM 7
-    "*** YOUR CODE HERE ***"
+    def say(score0, score1):
+        nonlocal last_score,running_high   
+        if not who:
+            score=score1
+        else:
+            score=score1 
+                
+        curr_diff=score-last_score
+        last_score=score
+        print(f'say called')
+        if curr_diff > running_high:
+            print(f'{curr_diff} points for Player {who}')
+            running_high=curr_diff 
+        return  announce_highest(who,last_score,running_high)
+    return say
     # END PROBLEM 7
 
 
