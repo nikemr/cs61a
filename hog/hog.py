@@ -215,7 +215,7 @@ def play(strategy0, strategy1, score0=0, score1=0, dice=six_sided,
     who = 0  # Who is about to take a turn, 0 (first) or 1 (second)
     # BEGIN PROBLEM 5
     
-    while score0<=goal and score1<=goal:
+    while score0<goal and score1<goal:
         # not readible but nice
         strategy= (who and strategy1) or strategy0
         # if who is "0" then "x = score0", "y= score1" and if who is "1" then vice versa ....
@@ -385,19 +385,21 @@ def announce_highest(who, last_score=0, running_high=0):
 
     # BEGIN PROBLEM 7
     def say(score0, score1):
-        nonlocal last_score,running_high   
+        previous_score= last_score
+        current_high= running_high
+        #nonlocal last_score,running_high   
         if not who:
-            score=score1
+            curr_score=score0
         else:
-            score=score1 
-                
-        curr_diff=score-last_score
-        last_score=score
-        print(f'say called')
-        if curr_diff > running_high:
+            curr_score=score1                 
+        curr_diff=curr_score-previous_score        
+        #print(f'say called')
+        if curr_diff > current_high:
             print(f'{curr_diff} points for Player {who}')
-            running_high=curr_diff 
-        return  announce_highest(who,last_score,running_high)
+            new_high=curr_diff 
+        else:
+            new_high=current_high
+        return  announce_highest(who,curr_score,new_high)
     return say
     # END PROBLEM 7
 
@@ -437,8 +439,15 @@ def make_averaged(original_function, trials_count=1000):
     >>> averaged_dice()
     3.0
     """
-    # BEGIN PROBLEM 8
-    "*** YOUR CODE HERE ***"
+    # BEGIN PROBLEM 8 
+    def avarager(*args):
+        countit=trials_count  
+        result=0
+        while countit>0:
+            result += original_function(*args)
+            countit-=1
+        return result/1000
+    return avarager
     # END PROBLEM 8
 
 
@@ -451,9 +460,29 @@ def max_scoring_num_rolls(dice=six_sided, trials_count=1000):
     >>> max_scoring_num_rolls(dice)
     1
     """
-    # BEGIN PROBLEM 9
-    "*** YOUR CODE HERE ***"
+    
+    highest_ava=0
+    highest_num_roll=10
+
+    num_roll=10 
+    while num_roll>0:      
+        instance=make_averaged(roll_dice, trials_count=1000)        
+        ava=instance(num_roll,dice)
+        #print(ava,num_roll)
+        if ava>=highest_ava :
+            highest_ava=ava
+            if num_roll<highest_num_roll:
+                highest_num_roll=num_roll
+        num_roll -=1
+    #print(f'highest ava: {highest_ava}  highest roll: {highest_num_roll}')
+    return highest_num_roll  
+    
+
+
+    
+
     # END PROBLEM 9
+
 
 
 def winner(strategy0, strategy1):
@@ -477,12 +506,12 @@ def average_win_rate(strategy, baseline=always_roll(6)):
 
 def run_experiments():
     """Run a series of strategy experiments and report results."""
-    if True:  # Change to False when done finding max_scoring_num_rolls
+    if False:  # Change to False when done finding max_scoring_num_rolls
         six_sided_max = max_scoring_num_rolls(six_sided)
         print('Max scoring num rolls for six-sided dice:', six_sided_max)
 
-    if False:  # Change to True to test always_roll(8)
-        print('always_roll(8) win rate:', average_win_rate(always_roll(8)))
+    if True:  # Change to True to test always_roll(8)
+        print('always_roll(2) win rate:', average_win_rate(always_roll(2)))
 
     if False:  # Change to True to test bacon_strategy
         print('bacon_strategy win rate:', average_win_rate(bacon_strategy))
@@ -501,8 +530,14 @@ def bacon_strategy(score, opponent_score, cutoff=8, num_rolls=6):
     """This strategy rolls 0 dice if that gives at least CUTOFF points, and
     rolls NUM_ROLLS otherwise.
     """
+    possible=free_bacon(opponent_score)
+    #print(possible)
+    if possible>=cutoff:
+        choice=0
+    else:
+        choice=num_rolls
     # BEGIN PROBLEM 10
-    return 6  # Replace this statement
+    return choice  # Replace this statement
     # END PROBLEM 10
 
 
@@ -511,10 +546,18 @@ def extra_turn_strategy(score, opponent_score, cutoff=8, num_rolls=6):
     rolls 0 dice if it gives at least CUTOFF points and does not give an extra turn.
     Otherwise, it rolls NUM_ROLLS.
     """
-    # BEGIN PROBLEM 11
-    return 6  # Replace this statement
-    # END PROBLEM 11
-
+    # below not implemeted by me
+    bacon_score = free_bacon(opponent_score)
+    if extra_turn(score + bacon_score, opponent_score):
+        if score + bacon_score <= opponent_score:
+            return 0
+        else:
+            if bacon_score >= cutoff:
+                return num_rolls
+    else:
+        if bacon_score >= cutoff:
+            return 0
+    return num_rolls
 
 def final_strategy(score, opponent_score):
     """Write a brief description of your final strategy.
