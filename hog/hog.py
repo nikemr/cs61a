@@ -54,19 +54,7 @@ def free_bacon(score):
     #print(div,pi)
     pi=pi % 10
     return pi+3    
-# def free_bacon(score):
-#     """Return the points scored from rolling 0 dice (Free Bacon).
-#     score:  The opponent's current score.
-#     """
-#     assert score < 100, 'The game should be over.'
-#     # BEGIN PROBLEM 2
-#     if score<10:
-#         return 1
-#     elif score>=10:
-#         tens_digit=floordiv(score,10)
-#         ones_digit=score%10
-#     smaller_digit=min(tens_digit,ones_digit)
-#     return smaller_digit+1
+
 
 def take_turn(num_rolls, opponent_score, dice=six_sided):
     """Simulate a turn rolling NUM_ROLLS dice, which may be 0 (Free Bacon).
@@ -90,23 +78,6 @@ def take_turn(num_rolls, opponent_score, dice=six_sided):
     "*** YOUR CODE HERE ***"
     # END PROBLEM 3
 
-
-# def take_turn(num_rolls, opponent_score, dice=six_sided):
-#     """Simulate a turn rolling NUM_ROLLS dice, which may be 0 (Free Bacon).
-#     Return the points scored for the turn by the current player.
-#     num_rolls:       The number of dice rolls that will be made.
-#     opponent_score:  The total score of the opponent.
-#     dice:            A function that simulates a single dice roll outcome.
-#     """
-#     # Leave these assert statements here; they help check for errors.
-#     assert type(num_rolls) == int, 'num_rolls must be an integer.'
-#     assert num_rolls >= 0, 'Cannot roll a negative number of dice in take_turn.'
-#     assert num_rolls <= 10, 'Cannot roll more than 10 dice.'
-#     assert opponent_score < 100, 'The game should be over.'
-#     # BEGIN PROBLEM 3
-#     "*** YOUR CODE HERE ***"
-#     return free_bacon(opponent_score) if num_rolls is 0 else roll_dice(num_rolls, dice)
-#     # END PROBLEM 3
 
 
 def extra_turn(player_score, opponent_score):
@@ -230,7 +201,7 @@ def play(strategy0, strategy1, score0=0, score1=0, dice=six_sided,
         # means the other    
         elif who:
             score1 += score_gain
-        # not nice but works with or without this, it must be necessary though I think lucky coincidence
+        # (not nice) but works with or without this, it must be necessary though I think lucky coincidence
         x= (who and score1) or score0   
         y= (who and score0) or score1
 
@@ -511,7 +482,7 @@ def run_experiments():
         print('Max scoring num rolls for six-sided dice:', six_sided_max)
 
     if True:  # Change to True to test always_roll(8)
-        print('always_roll(2) win rate:', average_win_rate(always_roll(2)))
+        print('always_roll(10) win rate:', average_win_rate(always_roll(10)))
 
     if False:  # Change to True to test bacon_strategy
         print('bacon_strategy win rate:', average_win_rate(bacon_strategy))
