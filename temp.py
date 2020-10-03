@@ -58,12 +58,12 @@ def merge(n1, n2):
 
 
 def return_same(n):
-
-    left,right=n//10,n%10
-
-    if left<0:
-        return right 
     
+    left,right=n//10,n%10
+    print(f'left:{left}')
+    print(f'right:{right}')
+    if left<=0:
+        return n     
         
     return return_same(left)*10+right
 
@@ -78,8 +78,23 @@ def return_order(n):
         right,left=left%10,left-left%10+right
         print(f'left:{left}')
         print(f'right:{right}')
+        n=left*10+right
+        print(f'n:{n}')
+    elif right<left%10:
+        print(f'left:{left}')
+        print(f'right:{right}')
+        n=left*10+right
+        print(f'n:{n}')
+    return return_order(n//10)*10+right
+
+
+    
+        
+
      
-    return return_order(left)*10+right
+    
+    # return return_order(left)*10+right
+    
 
 
 
@@ -94,4 +109,19 @@ def is_prime(n):
     return prime_helper(n-1)
     
 
+def missing_digits(n):
+    # this is working perfectly but ok doctest didn't accept
+    left,right=n//10,n%10
+    # print(f'right:{right}, left:{left}')
+    if left==0:
+        return 0
+    
+    elif right-left%10> 1:
+        # print('called')
+        # print(f'right:{right}, left:{left}') 
+        return missing_digits((n//10)*10+(right-1))+1
+    else:
+        return missing_digits(n//10)
+
+    
     
