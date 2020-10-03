@@ -4,3 +4,4 @@ ok_history
 *.ok_history
 *.pyc
 ok
+*.ok
