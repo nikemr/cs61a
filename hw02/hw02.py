@@ -22,7 +22,19 @@ def num_eights(x):
     ...       ['Assign', 'AugAssign'])
     True
     """
-    "*** YOUR CODE HERE ***"
+    if x == 0:
+        return 0
+    elif x % 10 == 8:
+        return num_eights(x // 10)+1
+    else:
+        return num_eights(x // 10)
+
+        
+        
+            
+    
+
+    
 
 
 def pingpong(n):
@@ -57,8 +69,19 @@ def pingpong(n):
     >>> check(HW_SOURCE_FILE, 'pingpong', ['Assign', 'AugAssign'])
     True
     """
-    "*** YOUR CODE HERE ***"
-
+    def helper(index,ping_pong_value,dir):
+        # print(f'ping_pong: {index},{ping_pong_value}')
+        
+        if index==n:
+            return ping_pong_value
+        if index<n:
+            if (num_eights(index) or index % 8 == 0):
+                # print('called')
+                return helper(index+1,ping_pong_value-dir,-dir)
+            else:
+                return helper(index+1,ping_pong_value+dir,dir)
+    
+    return helper(1,1,1)
 
 def missing_digits(n):
     """Given a number a that is in sorted, increasing order,
@@ -87,7 +110,21 @@ def missing_digits(n):
     >>> check(HW_SOURCE_FILE, 'missing_digits', ['While', 'For'])
     True
     """
-    "*** YOUR CODE HERE ***"
+    
+    left,right=n//10,n%10
+    # print(f'right:{right}, left:{left}')
+    if left==0:
+        return 0
+    
+    elif right-left%10> 1:
+        # print('called')
+        # print(f'right:{right}, left:{left}') 
+        return missing_digits((n//10)*10+(right-1))+1
+    else:
+        return missing_digits(n//10)
+
+
+
 
 
 def next_largest_coin(coin):
