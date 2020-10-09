@@ -19,6 +19,9 @@ def skip_add(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    if n==0 or n==1:
+        return n
+    return n+skip_add(n-2)
 
 
 def summation(n, term):
@@ -41,6 +44,9 @@ def summation(n, term):
     """
     assert n >= 1
     "*** YOUR CODE HERE ***"
+    if n==1:
+        return term(n)
+    return term(n)+ summation(n-1, term)
 
 
 def paths(m, n):
@@ -57,10 +63,13 @@ def paths(m, n):
     1
     """
     "*** YOUR CODE HERE ***"
+    if m==1 or n==1:
+        return 1
+    return paths(m-1,n)+paths(m, n-1)
 
 
 
-def max_subseq(n, t):
+def max_subseq(n,t):
     """
     Return the maximum subsequence of length at most t that can be found in the given number n.
     For example, for n = 20125 and t = 3, we have that the subsequences are
@@ -105,6 +114,13 @@ def max_subseq(n, t):
     5
     """
     "*** YOUR CODE HERE ***"
+    if n == 0 or t == 0:
+        return 0
+    with_last = max_subseq(n // 10, t - 1) * 10 + n % 10
+    print(f'with_last: {with_last}')
+    without_last = max_subseq(n // 10, t)
+    print(f'without_last: {without_last}')
+    return max(with_last, without_last)
 
 
 def add_chars(w1, w2):
