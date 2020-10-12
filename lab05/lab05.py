@@ -12,6 +12,8 @@ def couple(s, t):
     """
     assert len(s) == len(t)
     "*** YOUR CODE HERE ***"
+    return [[s[i],t[i]]for i in range(len(s))]
+
 
 
 from math import sqrt
@@ -27,6 +29,13 @@ def distance(city_a, city_b):
     5.0
     """
     "*** YOUR CODE HERE ***"
+    
+    x1=get_lat(city_a)
+    x2=get_lat(city_b)
+    y1=get_lon(city_a)
+    y2=get_lon(city_b)
+
+    return sqrt((x1 - x2)**2 + (y1 - y2)**2)
 
 def closer_city(lat, lon, city_a, city_b):
     """
@@ -44,6 +53,14 @@ def closer_city(lat, lon, city_a, city_b):
     'Bucharest'
     """
     "*** YOUR CODE HERE ***"
+    point=make_city('point',lat, lon)
+
+    if distance(city_a, point)<distance(city_b, point):
+        return get_name(city_a)
+    else:
+        return get_name(city_b)
+
+     
 
 def check_city_abstraction():
     """
@@ -143,6 +160,49 @@ def berry_finder(t):
     True
     """
     "*** YOUR CODE HERE ***"
+
+    # if label(t)=='leaf':
+    #     return True
+    
+    # else:
+
+    #     if is_tree(t):
+    #         print(t)
+    #         for i in branches(t):                
+    #             return berry_finder(i)
+
+
+    #     else:
+    #         return False 
+    print(label(t))
+
+    if label(t) == 'berry':
+            return True
+    for b in branches(t):
+        print(f'branch: {b}')
+        if berry_finder(b):
+            return True
+    return False
+            
+                
+                             
+    
+
+       
+
+    
+    
+        
+            
+
+
+        
+
+
+
+    
+       
+
 
 
 def sprout_leaves(t, leaves):
