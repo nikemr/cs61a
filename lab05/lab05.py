@@ -238,8 +238,8 @@ def sprout_leaves(t, leaves):
         new_sprouts=[tree(sp) for sp in leaves]
         return tree(label(t), new_sprouts)  
     else:
-        a= [sprout_leaves(b, leaves) for b in branches(t)]
-        return tree(label(t),a) 
+        list_of_branches= [sprout_leaves(b, leaves) for b in branches(t)]
+        return tree(label(t),list_of_branches) 
    
         
             
