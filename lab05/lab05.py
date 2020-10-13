@@ -160,29 +160,21 @@ def berry_finder(t):
     True
     """
     "*** YOUR CODE HERE ***"
-
-    # if label(t)=='leaf':
-    #     return True
-    
-    # else:
-
-    #     if is_tree(t):
-    #         print(t)
-    #         for i in branches(t):                
-    #             return berry_finder(i)
-
-
-    #     else:
-    #         return False 
-    
-
-    if label(t) == 'berry':
-            return True
-    for b in branches(t):
-        
-        if berry_finder(b):
-            return True
+    if is_leaf(t):        
+        return label(t)=='berry' 
+    else:
+        check_rest_of_them= [berry_finder(b) for b in branches(t)]
+        for i in check_rest_of_them:
+            if i:
+                return True
     return False
+         
+        
+
+
+
+
+
 
 def sprout_leaves(t, leaves):
     """Sprout new leaves containing the data in leaves at each leaf in
