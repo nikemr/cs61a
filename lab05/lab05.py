@@ -246,10 +246,10 @@ def sprout_leaves(t, leaves):
             b=[tree(label(b),[tree(x) for x in leaves])]
             nb+=b
             print(f'new branches:{nb}')
-            t=tree(label(t),nb)
+            
             print(f'is tree:{is_tree(b)}')
             print(f'new branch:{b}')
-            
+    t=tree(label(t),nb)        
     
     print(f'T:{t}')    
     return t
