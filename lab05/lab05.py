@@ -174,36 +174,15 @@ def berry_finder(t):
 
     #     else:
     #         return False 
-    print(label(t))
+    
 
     if label(t) == 'berry':
             return True
     for b in branches(t):
-        print(f'branch: {b}')
+        
         if berry_finder(b):
             return True
     return False
-            
-                
-                             
-    
-
-       
-
-    
-    
-        
-            
-
-
-        
-
-
-
-    
-       
-
-
 
 def sprout_leaves(t, leaves):
     """Sprout new leaves containing the data in leaves at each leaf in
@@ -239,21 +218,38 @@ def sprout_leaves(t, leaves):
           2
     """
     "*** YOUR CODE HERE ***"
-    nb=[]
-    for b in branches(t):
-        if is_leaf(b):
-            print('this is a leaf')
-            b=[tree(label(b),[tree(x) for x in leaves])]
-            nb+=b
-            print(f'new branches:{nb}')
+    # nb=[]
+    # for b in branches(t):
+        
+    #     if is_leaf(b):
+    #         print('this is a leaf')
+    #         b=[tree(label(b),[tree(x) for x in leaves])]
+    #         nb+=b
+    #         print(f'new branches:{nb}')
             
-            print(f'is tree:{is_tree(b)}')
-            print(f'new branch:{b}')
-    t=tree(label(t),nb)        
+    #         print(f'is tree:{is_tree(b)}')
+    #         print(f'new branch:{b}')
+    #         new_b=tree(label(b),nb) 
+    #         new_t=(label(t), new_b)
+    #         print(f'new_t:{new_t}')
+    #         print(f'new_t:{print_tree(new_t)}')
+
+    if is_leaf(t):
+        new_sprouts=[tree(sp) for sp in leaves]
+        return tree(label(t), new_sprouts)  
+    else:
+        a= [sprout_leaves(b, leaves) for b in branches(t)]
+        return tree(label(t),a) 
+   
+        
+            
+
     
-    print(f'T:{t}')    
-    return t
+           
     
+
+    
+ 
         
 
 
