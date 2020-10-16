@@ -2,14 +2,11 @@ from lab05 import *
 
 
 def height(t):
-    # depth=0
-    # if is_leaf(t):
-    #     print('leaf called')
-    #     return 1
-    # else:
-    #     for i in branches(t):
-    #         print(i)
-    #         return height(i)
+    """Return the height of a tree.
+    >>> t = tree(3, [tree(5, [tree(1)]), tree(2)])
+    >>> height(t)
+    2
+    """
     if is_leaf(t):
         return 0
     return 1 + max([height(b) for b in branches(t)])
@@ -33,8 +30,27 @@ def square_tree(t):
     """
     # this row can't be put in the return statement because it creates nested lists.
     new_branches=[square_tree(b) for b in branches(t)]
-    return tree(label(t)*label(t),new_branches) 
+    return tree(label(t)*label(t),new_branches)
 
+
+def find_path(tree, x):
+    """
+    >>> t = tree(2, [tree(7, [tree(3), tree(6, [tree(5), tree(11)])] ), tree(15)])
+    >>> find_path(t, 5)
+    [2, 7, 6, 5]
+    >>> find_path(t, 10)  # returns None
+    """
+    if label(tree)==x:
+        return [label(tree)]
+    for b in branches(tree):
+        path=find_path(b, x)
+        if path:
+            return [label(tree)] + path
+
+
+       
+        
+        
 
 
 
