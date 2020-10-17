@@ -13,10 +13,22 @@ from datetime import datetime
 def choose(paragraphs, select, k):
     """Return the Kth paragraph from PARAGRAPHS for which SELECT called on the
     paragraph returns true. If there are fewer than K such paragraphs, return
-    the empty string.
+    the empty string. 
+   
+
     """
-    # BEGIN PROBLEM 1
-    "*** YOUR CODE HERE ***"
+    selected =([i for i in paragraphs if select(i)])
+
+    if k<len(selected):
+        return selected[k]
+    else:
+        return ''
+
+    
+    
+       
+
+    
     # END PROBLEM 1
 
 
@@ -30,10 +42,20 @@ def about(topic):
     >>> choose(['Cute Dog!', 'That is a cat.', 'Nice pup.'], about_dogs, 1)
     'Nice pup.'
     """
-    assert all([lower(x) == x for x in topic]), 'topics should be lowercase.'
-    # BEGIN PROBLEM 2
-    "*** YOUR CODE HERE ***"
-    # END PROBLEM 2
+    assert all([lower(x) == x for x in topic]), 'topics should be lowercase.'   
+
+    def select(paragraph):
+        paragraph= remove_punctuation(paragraph) 
+        paragraph= lower(paragraph)   
+        paragraph= split(paragraph)                
+        for i in topic:
+            if i in paragraph:
+                return True
+        else:
+            return False   
+        
+    return select
+    
 
 
 def accuracy(typed, reference):
@@ -56,7 +78,21 @@ def accuracy(typed, reference):
     typed_words = split(typed)
     reference_words = split(reference)
     # BEGIN PROBLEM 3
-    "*** YOUR CODE HERE ***"
+
+    all_words_len=len(reference_words)
+    typed_words_len=len(typed_words)
+    
+
+    correct= 0
+
+    if typed=='':
+        return 0.0
+
+    for i in range(min(typed_words_len,all_words_len)):
+        if typed_words[i]==reference_words[i]:
+            correct+=1
+
+    return (correct/typed_words_len)*100
     # END PROBLEM 3
 
 
@@ -64,7 +100,9 @@ def wpm(typed, elapsed):
     """Return the words-per-minute (WPM) of the TYPED string."""
     assert elapsed > 0, 'Elapsed time must be positive'
     # BEGIN PROBLEM 4
-    "*** YOUR CODE HERE ***"
+    num_word= len(typed)/5
+    elapsed= elapsed/60
+    return num_word/elapsed
     # END PROBLEM 4
 
 
