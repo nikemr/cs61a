@@ -112,41 +112,80 @@ def autocorrect(user_word, valid_words, diff_function, limit):
     than LIMIT.
     """
     # BEGIN PROBLEM 5
-    "*** YOUR CODE HERE ***"
-    # END PROBLEM 5
+    if user_word in valid_words:
+        return user_word
 
+    distance_map= [(diff_function(user_word,possible,limit),possible) for possible in valid_words]
+    print (distance_map)
+    dist,closest_word= min(distance_map)
+    
+    if dist==0 :
+        return closest_word
 
+    elif dist>limit:
+        return user_word
+        
+    else:
+        return closest_word
+
+        
 def shifty_shifts(start, goal, limit):
     """A diff function for autocorrect that determines how many letters
     in START need to be substituted to create GOAL, then adds the difference in
     their lengths.
     """
-    # BEGIN PROBLEM 6
-    assert False, 'Remove this line'
-    # END PROBLEM 6
+    # print(start, goal)
+    if not start:
+        # print("zero")
+        return len(goal)
 
+    elif start[0] == goal[0]:
+        # print(" eq called")
+        return shifty_shifts(start[1:], goal[1:], limit)
+        
+    else:
+        # print("non-eq-called")
+        return (1 + shifty_shifts(start[1:], goal[1:], limit-1)) if limit > 0 else 1
+   
 
 def pawssible_patches(start, goal, limit):
     """A diff function that computes the edit distance from START to GOAL."""
-    assert False, 'Remove this line'
 
-    if ______________: # Fill in the condition
-        # BEGIN
-        "*** YOUR CODE HERE ***"
-        # END
+    # assert False, 'Remove this line'
+    start[0] == goal[0]
+    if not start:
+        # print("start exhausted")
+        return len(goal)
+    if not goal:
+        # print("goal exhousted")
+        return len(start)
 
-    elif ___________: # Feel free to remove or add additional cases
+    if start[0] == goal[0]:  # Feel free to remove or add additional cases
         # BEGIN
-        "*** YOUR CODE HERE ***"
+        # print("character matched")
+        # print(start, goal)
+        # print(f'sonraki {start[1:]} ve {goal[1:]} ')        
+        return pawssible_patches(start[1:], goal[1:], limit) 
+    if limit < 0: # Feel free to remove or add additional cases
+        # BEGIN
+        return 1
         # END
+    
 
     else:
-        add_diff = ... # Fill in these lines
-        remove_diff = ...
-        substitute_diff = ...
-        # BEGIN
-        "*** YOUR CODE HERE ***"
-        # END
+        # print("else called")
+        # print(start, goal)
+        add_diff = 1+pawssible_patches(start, goal[1:], limit-1)
+        # print("add_diff")
+        # print("remove called")
+        remove_diff = 1+pawssible_patches(start[1:], goal, limit-1)
+        substitute_diff =1+ pawssible_patches(start[1:], goal[1:], limit-1)
+        
+        
+        
+        return min(add_diff, remove_diff, substitute_diff)
+     
+        
 
 
 def final_diff(start, goal, limit):
@@ -159,12 +198,40 @@ def final_diff(start, goal, limit):
 ###########
 
 
-def report_progress(typed, prompt, user_id, send):
-    """Send a report of your id and progress so far to the multiplayer server."""
-    # BEGIN PROBLEM 8
-    "*** YOUR CODE HERE ***"
-    # END PROBLEM 8
+# def report_progress(typed, prompt, user_id, send):
+#     """Send a report of your id and progress so far to the multiplayer server."""
+#     # BEGIN PROBLEM 8
+#     correct, i = 0, 0
+#     prompt_length = len(prompt)
+#     max_iteration = len(typed)
+#     condition = True
+#     while condition:
+#         if typed[i] == prompt[i]:
+#             correct += 1
+#             i += 1
+#         else:
+#             condition = False
 
+#         if i>=max_iteration:
+#             condition = False
+#     progress = correct / prompt_length
+#     report = {
+#         'id': user_id,
+#         'progress': progress,
+#     }
+#     send(report)
+#     return progress
+
+def report_progress(typed, prompt, user_id, send):
+    if typed=='':
+        report = {
+#         'id': user_id,
+#         'progress': progress,
+#     }
+    if typed[0] != prompt[0]:
+        return 0
+    else:
+        return 1+ report_progress(typed[1:], prompt[1:], user_id, send)
 
 def fastest_words_report(times_per_player, words):
     """Return a text description of the fastest words typed by each player."""
