@@ -247,7 +247,24 @@ def time_per_word(times_per_player, words):
     """
     # BEGIN PROBLEM 9
     "*** YOUR CODE HERE ***"
-    # END PROBLEM 9
+    
+    times = []
+    game_len= len(words)
+    repeat=0
+    temp=[]
+    for player_time in times_per_player:
+        while repeat<game_len:
+            temp.append(abs(player_time[repeat]-player_time[repeat+1]))           
+            repeat+=1
+        repeat=0
+        times.append(temp[:])
+        temp=[]
+    return game(words,times)
+           
+           
+        
+    
+    # return game(words,times)
 
 
 def fastest_words(game):
