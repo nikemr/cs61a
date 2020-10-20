@@ -198,40 +198,31 @@ def final_diff(start, goal, limit):
 ###########
 
 
-# def report_progress(typed, prompt, user_id, send):
-#     """Send a report of your id and progress so far to the multiplayer server."""
-#     # BEGIN PROBLEM 8
-#     correct, i = 0, 0
-#     prompt_length = len(prompt)
-#     max_iteration = len(typed)
-#     condition = True
-#     while condition:
-#         if typed[i] == prompt[i]:
-#             correct += 1
-#             i += 1
-#         else:
-#             condition = False
-
-#         if i>=max_iteration:
-#             condition = False
-#     progress = correct / prompt_length
-#     report = {
-#         'id': user_id,
-#         'progress': progress,
-#     }
-#     send(report)
-#     return progress
-
 def report_progress(typed, prompt, user_id, send):
-    if typed=='':
-        report = {
-#         'id': user_id,
-#         'progress': progress,
-#     }
-    if typed[0] != prompt[0]:
-        return 0
-    else:
-        return 1+ report_progress(typed[1:], prompt[1:], user_id, send)
+    """Send a report of your id and progress so far to the multiplayer server."""
+    # BEGIN PROBLEM 8
+    correct, i = 0, 0
+    prompt_length = len(prompt)
+    max_iteration = len(typed)
+    condition = True
+    while condition:
+        if typed[i] == prompt[i]:
+            correct += 1
+            i += 1
+        else:
+            condition = False
+
+        if i>=max_iteration:
+            condition = False
+    progress = correct / prompt_length
+    report = {
+        'id': user_id,
+        'progress': progress,
+    }
+    send(report)
+    return progress
+
+
 
 def fastest_words_report(times_per_player, words):
     """Return a text description of the fastest words typed by each player."""
