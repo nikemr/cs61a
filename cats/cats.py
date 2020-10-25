@@ -257,6 +257,7 @@ def time_per_word(times_per_player, words):
             temp.append(abs(player_time[repeat]-player_time[repeat+1]))           
             repeat+=1
         repeat=0
+        ,
         times.append(temp[:])
         temp=[]
     return game(words,times)
