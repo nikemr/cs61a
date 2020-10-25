@@ -43,12 +43,12 @@ def end(s):
 def planet(size):
     """Construct a planet of some size."""
     assert size > 0
-    "*** YOUR CODE HERE ***"
+    return ['planet',size]
 
 def size(w):
     """Select the size of a planet."""
     assert is_planet(w), 'must call size on a planet'
-    "*** YOUR CODE HERE ***"
+    return w[1]
 
 def is_planet(w):
     """Whether w is a planet."""
@@ -84,6 +84,7 @@ def total_weight(m):
         assert is_mobile(m), "must get total weight of a mobile or a planet"
         return total_weight(end(left(m))) + total_weight(end(right(m)))
 
+    
 def balanced(m):
     """Return whether m is balanced.
 
@@ -103,8 +104,30 @@ def balanced(m):
     >>> # checking for abstraction barrier violations by banning indexing
     >>> check(HW_SOURCE_FILE, 'balanced', ['Index'])
     True
-    """
-    "*** YOUR CODE HERE ***"
+    """ 
+        
+    if is_planet(m):
+        return True
+    if is_mobile(m):
+        # print('this is a mobile')
+        # print(f'left end: {end(left(m))}')
+        # print(f'left weight: {total_weight(end(left(m)))}')
+        # print(f'left torque: {total_weight(end(left(m)))*length(left(m))}')
+        # print(f'right end: {end(right(m))}')
+        # print(f'right weight: {total_weight(end(left(m)))}')
+        # print(f'right torque: {total_weight(end(right(m)))*length(right(m)) }')
+        left_torque = total_weight(end(left(m)))*length(left(m))
+        right_torque = total_weight(end(right(m)))*length(right(m))
+
+        if left_torque == right_torque:
+            # print('this mobile is balanced')
+            return balanced(end(left(m))) and balanced(end(right(m)))
+        else:
+            # print('Nope this mobile is not balanced')
+            return False
+
+
+
 
 def totals_tree(m):
     """Return a tree representing the mobile with its total weight at the root.
@@ -135,7 +158,15 @@ def totals_tree(m):
     >>> check(HW_SOURCE_FILE, 'totals_tree', ['Index'])
     True
     """
-    "*** YOUR CODE HERE ***"
+    # i didn't solve it, this is from solution paper
+    if is_planet(m):
+        return tree(size(m))
+    else:
+        branches = [totals_tree(end(f(m))) for f in [left, right]]
+        return tree(sum([label(b) for b in branches]), branches)
+   
+
+    
 
 
 def replace_leaf(t, find_value, replace_value):
