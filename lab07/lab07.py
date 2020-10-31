@@ -27,8 +27,10 @@ def scale(it, multiplier):
     >>> [next(m) for _ in range(5)]
     [2, 4, 6, 8, 10]
     """
-    "*** YOUR CODE HERE ***"
-
+    
+    for num in it:
+        yield num*multiplier
+    
 
 def hailstone(n):
     """
@@ -43,5 +45,10 @@ def hailstone(n):
     2
     1
     """
-    "*** YOUR CODE HERE ***"
-
+    while n > 1:
+        yield n
+        if n % 2 == 0:
+            n //= 2
+        else:
+            n = n*3+1
+    yield 1
