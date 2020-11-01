@@ -1,3 +1,6 @@
+from doctest import testmod
+
+
 class VendingMachine:
     """A vending machine that vends some product for some price.
 
@@ -36,6 +39,43 @@ class VendingMachine:
     'Here is your soda.'
     """
     "*** YOUR CODE HERE ***"
+
+    def __init__(self, product_name, price):
+        self.product_name = product_name
+        self.price = price
+        self.stock = 0
+        self.funds = 0
+
+    def vend(self):
+        if self.stock == 0:
+            return f'Inventory empty. Restocking required.'
+        elif self.funds < self.price:
+            return f'You must add ${self.price-self.funds} more funds.'
+        elif self.funds > self.price:
+            change=self.funds -self.price
+            self.funds = 0
+            self.stock -= 1
+            return f'Here is your candy and ${change} change.'
+        else:
+            self.stock -= 1
+            self.funds =0
+            return f'Here is your {self.product_name}.'
+
+    def restock(self, addition):
+        self.stock += addition
+        return f'Current {self.product_name} stock: {self.stock}'
+
+    def add_funds(self, fund):
+        if self.stock == 0:
+            self.funds = 0
+            return f'Inventory empty. Restocking required. Here is your ${fund}.'
+        else:
+            self.funds += fund
+            return f'Current balance: ${self.funds}'
+
+
+
+
 
 
 class Mint:
@@ -107,7 +147,13 @@ def store_digits(n):
     >>> cleaned = re.sub(r"#.*\\n", '', re.sub(r'"{3}[\s\S]*?"{3}', '', inspect.getsource(store_digits)))
     >>> print("Do not use str or reversed!") if any([r in cleaned for r in ["str", "reversed"]]) else None
     """
-    "*** YOUR CODE HERE ***"
+
+
+
+
+
+    
+
 
 
 def is_bst(t):
