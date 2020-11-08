@@ -8,6 +8,12 @@ def convert_link(link):
     []
     """
     "*** YOUR CODE HERE ***"
+    if link == empty:
+        return []
+    elif rest(link) == empty:
+        return first(link)
+    else:
+        return first(link),join_link(rest(link))        
 
 
 def every_other(s):
