@@ -34,6 +34,28 @@ def every_other(s):
     Link(4)
     """
     "*** YOUR CODE HERE ***"
+    if s == ():
+        return ()
+    else:
+        kept = every_other(s.rest)
+        if s.first%2==0:
+            return s.first, kept
+        else:
+            return kept
+
+
+
+def keep_if_link( s):
+    """Return a list with elements of s for which f(e) is true."""
+    
+    if s == ():
+        return ()
+    else:
+        kept = keep_if_link(s.rest)
+        if s.first%2==0:
+            return s.first, kept
+        else:
+            return kept
 
 
 def cumulative_mul(t):
