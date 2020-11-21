@@ -37,6 +37,9 @@ class Expr:
         evaluated.  This method should return a `Value` instance, the result of
         evaluating the expression.
         """
+        
+        
+
         raise NotImplementedError
 
     def __str__(self):
@@ -106,7 +109,10 @@ class Name(Expr):
         >>> print(Name('c').eval(env))
         None
         """
-        "*** YOUR CODE HERE ***"
+        if self.var_name in env:
+            return env[self.var_name]
+        else:
+            return None
 
     def __str__(self):
         return self.var_name
@@ -172,7 +178,9 @@ class CallExpr(Expr):
         >>> read('add(mul(3, 4), b)').eval(new_env)
         Number(14)
         """
-        "*** YOUR CODE HERE ***"
+        function = self.operator.eval(env)
+        arguments = [operand.eval(env) for operand in self.operands]
+        return function.apply(arguments)
 
     def __str__(self):
         function = str(self.operator)
