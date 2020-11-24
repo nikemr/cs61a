@@ -341,8 +341,28 @@ def do_and_form(expressions, env):
     False
     """
     # BEGIN PROBLEM 12
-    "*** YOUR CODE HERE ***"
+    if expressions is nil:
+        return is_true_primitive(0)
+    while not expressions is nil:
+        # last_element = scheme_eval(expressions.first, env)
+        current = scheme_eval(expressions.first, env)
+        if current is is_false_primitive(0):
+            return current
+        expressions = expressions.rest
+    return current
+
     # END PROBLEM 12
+
+    # BEGIN PROBLEM 12
+    # if expressions == nil:
+    #     return True
+    # if expressions.rest == nil:
+    #     return scheme_eval(expressions.first,env,True)
+    # current = scheme_eval(expressions.first,env)
+    # if is_false_primitive(current):
+    #     return current
+    # return do_and_form(expressions.rest,env)
+    # # END PROBLEM 12    
 
 def do_or_form(expressions, env):
     """Evaluate a (short-circuited) or form.
@@ -358,8 +378,26 @@ def do_or_form(expressions, env):
     6
     """
     # BEGIN PROBLEM 12
-    "*** YOUR CODE HERE ***"
+    if expressions is nil:
+        return  is_false_primitive(0)
+    while not expressions is nil:
+        current = scheme_eval(expressions.first, env)
+        if not current is  is_false_primitive(0):
+            return current
+        expressions = expressions.rest
+    return current
     # END PROBLEM 12
+
+    # # BEGIN PROBLEM 12
+    # if expressions == nil:
+    #     return False
+    # if expressions.rest == nil:
+    #     return scheme_eval(expressions.first,env,True)
+    # current = scheme_eval(expressions.first,env)
+    # if is_true_primitive(current):
+    #     return current
+    # return do_or_form(expressions.rest,env)
+    # # END PROBLEM 12    
 
 def do_cond_form(expressions, env):
     """Evaluate a cond form.
@@ -378,7 +416,10 @@ def do_cond_form(expressions, env):
             test = scheme_eval(clause.first, env)
         if is_true_primitive(test):
             # BEGIN PROBLEM 13
-            "*** YOUR CODE HERE ***"
+            if clause.rest is nil:
+                return test
+            else:
+                return eval_all(clause.rest, env)
             # END PROBLEM 13
         expressions = expressions.rest
 
@@ -402,7 +443,14 @@ def make_let_frame(bindings, env):
         raise SchemeError('bad bindings list in let form')
     names, values = nil, nil
     # BEGIN PROBLEM 14
-    "*** YOUR CODE HERE ***"
+    while bindings != nil:
+        current = bindings.first
+        if current.rest == nil or current.rest.rest != nil:
+            raise SchemeError
+        names = Pair(current.first, names)
+        values = Pair(scheme_eval(current.rest.first,env), values)
+        bindings = bindings.rest
+    validate_formals(names)
     # END PROBLEM 14
     return env.make_child_frame(names, values)
 

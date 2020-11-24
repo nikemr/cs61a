@@ -6,14 +6,18 @@
 ; Some utility functions that you may find useful to implement
 
 (define (zip pairs)
-  'replace-this-line)
+  (list (map (lambda (x) (car x)) pairs) (map (lambda (y) (cadr y)) pairs)))
 
 
 ;; Problem 15
 ;; Returns a list of two-element lists
 (define (enumerate s)
-  ; BEGIN PROBLEM 15
-  'replace-this-line
+  ; BEGIN PROBLEM 16
+  (define (helper s i)
+          (if (equal? s nil)
+              nil
+              (cons (cons i (cons (car s) nil)) (helper (cdr s) (+ i 1)))))
+  (helper s 0)
   )
   ; END PROBLEM 15
 
