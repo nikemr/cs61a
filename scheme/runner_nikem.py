@@ -1,7 +1,6 @@
-scheme_eval(Pair('+', Pair(2, Pair(2, nil))), create_global_frame())
-
-expr = read_line('(+ (+ 2 2) (+ 1 3) (* 1 4))')
-scheme_eval(expr, create_global_frame()) # Type SchemeError if you think this errors
-
-expr = read_line('(yolo)')
-scheme_eval(expr, create_global_frame()) 
+from scheme import *
+global_frame = create_global_frame()
+formals = Pair('a', Pair('b', Pair('c', nil)))
+vals = Pair(1, Pair(2, Pair(3, nil)))
+frame = global_frame.make_child_frame(formals, vals)
+global_frame.lookup('a') # Type SchemeError if you think this errors
