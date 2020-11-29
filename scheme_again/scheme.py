@@ -36,7 +36,14 @@ def scheme_eval(expr, env, _=None): # Optional third argument is ignored
         return SPECIAL_FORMS[first](rest, env)
     else:
         # BEGIN PROBLEM 4
-        "*** YOUR CODE HERE ***"
+        procedure =  scheme_eval(first, env)
+        args= rest.map(lambda val : scheme_eval(val, env))  
+        return scheme_apply(procedure , args, env)
+        # END PROBLEM 4
+        # BEGIN PROBLEM 4 BACKUP
+        # procedure =  scheme_eval(expr.first, env)
+        # args= expr.rest.map(lambda expr : scheme_eval(expr, env))  
+        # return scheme_apply(procedure , args, env)
         # END PROBLEM 4
 
 def self_evaluating(expr):
@@ -159,7 +166,19 @@ class BuiltinProcedure(Procedure):
         # Convert a Scheme list to a Python list
         python_args = []
         # BEGIN PROBLEM 3
-        "*** YOUR CODE HERE ***"
+        idx=0
+        ctl=len(args)
+        while ctl>idx:
+            python_args.append(args.first)
+            args=args.rest
+            idx+=1
+        # this is better, without index 
+        # while args:
+        #     python_args.append(args.first)
+        #     args = args.rest        
+        if self.use_env==True:
+             python_args.append(env) 
+
         # END PROBLEM 3
         try:
             return self.fn(*python_args)
@@ -238,10 +257,16 @@ def do_define_form(expressions, env):
     """
     validate_form(expressions, 2) # Checks that expressions is a list of length at least 2
     target = expressions.first
+    print(f'target:{target}')
     if scheme_symbolp(target):
+        
         validate_form(expressions, 2, 2) # Checks that expressions is a list of length exactly 2
         # BEGIN PROBLEM 5
-        "*** YOUR CODE HERE ***"
+        # print(expressions.rest)
+        value=scheme_eval(expressions.rest.first,env)        
+        # print(f'value:{value}')
+        env.define(target,value)
+        return target
         # END PROBLEM 5
     elif isinstance(target, Pair) and scheme_symbolp(target.first):
         # BEGIN PROBLEM 9
@@ -260,7 +285,7 @@ def do_quote_form(expressions, env):
     """
     validate_form(expressions, 1, 1)
     # BEGIN PROBLEM 6
-    "*** YOUR CODE HERE ***"
+    return expressions.first
     # END PROBLEM 6
 
 def do_begin_form(expressions, env):
