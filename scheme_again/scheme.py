@@ -76,7 +76,15 @@ def eval_all(expressions, env):
     2
     """
     # BEGIN PROBLEM 7
-    return scheme_eval(expressions.first, env) # replace this with lines of your own code
+    if expressions==nil:
+        return None
+    elif expressions.rest==nil:
+        return scheme_eval(expressions.first, env)
+    else:
+        scheme_eval(expressions.first, env)
+        return eval_all(expressions.rest, env)
+
+    # return scheme_eval(expressions.first, env) # replace this with lines of your own code
     # END PROBLEM 7
 
 ################
@@ -310,8 +318,10 @@ def do_lambda_form(expressions, env):
     validate_form(expressions, 2)
     formals = expressions.first
     validate_formals(formals)
+
+    
     # BEGIN PROBLEM 8
-    "*** YOUR CODE HERE ***"
+    return LambdaProcedure(formals ,expressions.rest,env)
     # END PROBLEM 8
 
 def do_if_form(expressions, env):
