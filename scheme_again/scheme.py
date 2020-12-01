@@ -125,7 +125,7 @@ class Frame(object):
     def make_child_frame(self, formals, vals):
         """Return a new local frame whose parent is SELF, in which the symbols
         in a Scheme list of formal parameters FORMALS are bound to the Scheme
-        values in the Scheme list VALS. Raise an error if too many or too few
+        values in the Scheme list VALS. Ra ise an error if too many or too few
         vals are given.
 
         >>> env = create_global_frame()
@@ -136,7 +136,12 @@ class Frame(object):
         if len(formals) != len(vals):
             raise SchemeError('Incorrect number of arguments to function call')
         # BEGIN PROBLEM 10
-        "*** YOUR CODE HERE ***"
+        child=Frame(self)
+            
+        while formals:            
+            child.define(formals.first,vals.first)
+            formals,vals=formals.rest,vals.rest
+        return child
         # END PROBLEM 10
 
 ##############
@@ -211,7 +216,7 @@ class LambdaProcedure(Procedure):
         """Make a frame that binds my formal parameters to ARGS, a Scheme list
         of values, for a lexically-scoped call evaluated in environment ENV."""
         # BEGIN PROBLEM 11
-        "*** YOUR CODE HERE ***"
+        return self.env.make_child_frame(self.formals, args)
         # END PROBLEM 11
 
     def __str__(self):
