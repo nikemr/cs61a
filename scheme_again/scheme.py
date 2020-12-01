@@ -265,7 +265,7 @@ def do_define_form(expressions, env):
     """
     validate_form(expressions, 2) # Checks that expressions is a list of length at least 2
     target = expressions.first
-    print(f'target:{target}')
+    # print(f'target:{target}')
     if scheme_symbolp(target):
         
         validate_form(expressions, 2, 2) # Checks that expressions is a list of length exactly 2
@@ -273,12 +273,14 @@ def do_define_form(expressions, env):
         # print(expressions.rest)
         value=scheme_eval(expressions.rest.first,env)        
         # print(f'value:{value}')
-        env.define(target,value)
+        env.define(target,value) 
         return target
         # END PROBLEM 5
     elif isinstance(target, Pair) and scheme_symbolp(target.first):
         # BEGIN PROBLEM 9
-        "*** YOUR CODE HERE ***"
+        value = do_lambda_form(Pair(target.rest,(expressions.rest)),env)
+        env.define(target.first,value)
+        return target.first
         # END PROBLEM 9
     else:
         bad_target = target.first if isinstance(target, Pair) else target
