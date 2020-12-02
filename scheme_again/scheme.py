@@ -441,9 +441,15 @@ def do_cond_form(expressions, env):
                 raise SchemeError('else must be last')
         else:
             test = scheme_eval(clause.first, env)
+            print(f'test:{test}')
         if is_true_primitive(test):
             # BEGIN PROBLEM 13
-            "*** YOUR CODE HERE ***"
+            if clause.rest==nil:
+                return test
+            elif clause.rest.rest:
+                return eval_all(clause.rest, env)
+            else:
+                return scheme_eval(clause.rest.first, env)
             # END PROBLEM 13
         expressions = expressions.rest
 
