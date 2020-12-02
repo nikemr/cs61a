@@ -359,9 +359,34 @@ def do_and_form(expressions, env):
     4
     False
     """
-    # BEGIN PROBLEM 12
-    "*** YOUR CODE HERE ***"
-    # END PROBLEM 12
+    # # BEGIN PROBLEM 12
+    
+    # if expressions is nil:
+    #     return True
+    # elif is_false_primitive(scheme_eval(expressions.first, env)):
+    #     return False
+    # elif is_true_primitive(scheme_eval(expressions.first, env)) and (expressions.rest==nil):
+    #     # print("true called")    
+    #     return scheme_eval(expressions.first, env)
+    # else:
+    #     return do_and_form(expressions.rest, env)    
+    # # END PROBLEM 12
+    
+
+    if expressions is nil:
+        return True
+    while not expressions is nil:
+        # last_element = scheme_eval(expressions.first, env)
+        current = scheme_eval(expressions.first, env)
+        if is_false_primitive(current):
+            return current
+        # print(f'expressions:{expressions}')
+        expressions = expressions.rest
+    return current
+    
+ 
+
+
 
 def do_or_form(expressions, env):
     """Evaluate a (short-circuited) or form.
@@ -369,7 +394,7 @@ def do_or_form(expressions, env):
     >>> env = create_global_frame()
     >>> do_or_form(read_line("(10 (print 1))"), env)
     10
-    >>> do_or_form(read_line("(#f 2 3 #t #f)"), env)
+    >>> do_or_form(read_line("(#f #f 2 3 #t #f)"), env)
     2
     >>> do_or_form(read_line("((begin (print 1) #f) (begin (print 2) #f) 6 (begin (print 3) 7))"), env)
     1
@@ -377,8 +402,29 @@ def do_or_form(expressions, env):
     6
     """
     # BEGIN PROBLEM 12
-    "*** YOUR CODE HERE ***"
-    # END PROBLEM 12
+    # there is still a glitch that some values come two times
+    # if expressions is nil:
+    #     return False
+    # elif is_true_primitive(scheme_eval(expressions.first, env)):  
+    #     print("true called")      
+    #     return scheme_eval(expressions.first, env)
+    # elif is_false_primitive(scheme_eval(expressions.first, env)):
+    #     print("false called") 
+    #     print(f'the rest is:{expressions.rest}') 
+    #     return do_or_form(expressions.rest, env)    
+    # else:
+    #     return False
+    # # END PROBLEM 12
+    if expressions is nil:
+        return False
+    while not expressions is nil:
+        # last_element = scheme_eval(expressions.first, env)
+        current = scheme_eval(expressions.first, env)
+        if is_true_primitive(current ):
+            return current
+        # print(f'expressions:{expressions}')
+        expressions = expressions.rest
+    return current
 
 def do_cond_form(expressions, env):
     """Evaluate a cond form.
